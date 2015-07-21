@@ -1,0 +1,42 @@
+* planar case
+* int_V int_\infty eps G.E - epsE.G
+* boundary condition int_V n \cdot P_NL d/dn G - d/dn P_NL G  
+from agarwal long this 
+* how to get dE/dn from n x E n x H in NEM
+* 2D BEM incorrect?  (\nabla^2 + eps k_0^2) \phi = 0 
+Suffers from same int_V int_\infty problem?
+
+\nabla^2 phi(r) + \int dr' \epsilon(r,r') phi(r') = 0
+
+In k-space
+
+\int dk (-k^2 + \epsilon(k)) g(k) = \int
+
+
+* FEM - BEM boundary condition 
+  Use FEM to calculate G satisfying  \nabla \times \nabla \times G  + \int_V \epsilon G = \delta
+
+FEM should work.  It provides a map J->E in the interior
+
+the matrix is different
+
+[ n x Lext   -n x Lint  ] [J] = [n x Ein]
+[ -n x Kext   I         ] [M] = [n x Hin]
+
+there is no equivalent source from M = E x n?
+ 
+
+* How to write decomposed \epsilon(k) = \epsilon_T(k) + \epsilon_L(k) in position space?
+I have done based on plane-wave decomposion
+E(r) = \int d3k exp(ik.r) { a(k)x + b(k)y + c(k)z }
+
+ \epsilon E = \int d3k exp(ikx.x) { epsT exp(iky.y) c(k)z + epsT expi(ikz.z) b(k)y + epsL exp(iky.y) exp(ikz.z) a(k)x  ... }
+
+Chew FEM p 475
+
+
+* 1D hydrodynamic green function
+
+method 1) Agarwal : operator L E = F{ (d/dz^2 + w^2) (\delta(z) exp(ik_x x)) } = (w^2 - k_z^2) \delta(k_x) \vec{J}
+
+m
