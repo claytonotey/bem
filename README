@@ -1,0 +1,45 @@
+Content
+=======
+
+This package is for calculating heat transfer between homogenous dielectric bodies using the boundary element method.
+
+Usage:
+transfer <x3d file for body 1> <x3d file for body 2> <scale factor applied to x3d files (in meters)> <txt file containing lines of frequenies (in eV))
+
+The executable `transfer-mpi' assumes the following files exist in the current directory:
+body1.x3d
+body2.x3d
+a.txt
+gaps.txt
+freqs.txt
+
+This simple input model is used for MPI to avoid issues with argument parsing and filesystems on mutiple nodes.
+
+Both executables write the results to the file `./output', which contains lines:
+
+<scaling factor (in meters)> <gap (in meters)> <T1 (in K)> <T2 (in K)> <f (in eV)> <spectral power (in W/eV)>
+
+
+Requirements
+============
+
+  POSIX systems (e.g. Linux, OS X):
+  ---------------------------------
+
+  You need at least to have libtool installed to be able to build the
+  library with "./configure && make".
+
+Compiling
+=========
+
+  Call './configure && make' on the console to compile the library, all
+  tools and demo applications, documentation and install them with
+  'make install'. The latter has to be called as root.
+
+  If you are compiling from CVS you have to call 'make -f Makefile.cvs'
+  to generate all autotools build files before calling
+  './configure && make'.
+
+  You can use 'make distclean' and probably 'make -f Makefile.cvs clean'
+  to clean up everything again. The latter will also delete all automatic
+  generated autools build files.

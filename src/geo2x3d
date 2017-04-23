@@ -1,0 +1,84 @@
+#!/usr/bin/perl
+
+$format = 0;
+$nodes = 0;
+$elements = 0;
+$pts = 0;
+$els = 0;
+
+while(<>) {
+    chomp $_;
+
+    if($_  =~ /\$MeshFormat/) {
+        $format = 1;
+        next;
+    } elsif($_  =~ /\$EndMeshFormat/) {
+        $format = 0;
+    }
+    if($format) {next;}
+
+    if($_  =~ /\$Nodes/) {
+        $nodes = 2;
+        next;
+    } elsif($_  =~ /\$EndNodes/) {
+        $nodes = 0;
+    }
+
+    if($_  =~ /\$Elements/) {
+        $elements = 1;
+        next;
+    } elsif($_  =~ /\$EndElements/) {
+        $elements = 0;
+    }
+
+    if($nodes == 2) {
+        $nodes = 1;
+        next;
+    } 
+    if($nodes == 1) {
+
+        ($n,$x,$y,$z) = split / \s*/, $_;
+        $pt[$pts++] = [($x,$y,$z)];
+    }
+
+    if($elements == 1) {
+        ($n,$t,$f,$g,$bla,$i,$j,$k) = split / \s*/, $_;
+        if($t == 2) {
+            $el[$els++] = [($i-1,$j-1,$k-1)];
+        }
+    }
+}
+
+
+
+print<<MUNE;
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN" "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D version="3.0" profile="Immersive" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
+  <Scene>
+    <Transform translation="0.000000 0.000000 0.000" scale="1 1 1" rotation="1. 0. 0. 0.">
+      <Shape>
+        <Dielectric material="SiliconCarbide"/>
+<IndexedFaceSet coordIndex="
+MUNE
+
+for($i=0; $i<$els; $i++) {
+    print $el[$i][0] . " " . $el[$i][1] . " " . $el[$i][2] . " -1, ";
+}
+
+print <<EOF;
+">
+      <Coordinate point="
+EOF
+for($i=0; $i<$pts; $i++) {
+    print $pt[$i][0] . " " . $pt[$i][1] . " " . $pt[$i][2] . ", ";
+}
+print <<EOF;
+" />
+    </IndexedFaceSet>
+	    </Shape>
+    </Transform>
+  </Scene>
+</X3D>
+  
+EOF
